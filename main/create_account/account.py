@@ -4,7 +4,7 @@ import hashlib
 
 # check if the database exists or not -> creates if not found in dir
 def check_valid_db():
-    if os.path.exists("LocalAccount.db"):
+    if os.path.exists("FlowBro.db"):
         print("Database found")
 
     else:
@@ -13,7 +13,7 @@ def check_valid_db():
         cursor = conn.cursor()
 
         # User_Account table
-        cursor.execute("""CREATE TABLE IF NOT EXISTS User_Account
+        cursor.execute("""CREATE TABLE IF NOT EXISTS User_Accounts
         (user_id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL UNIQUE,
         password BLOB NOT NULL,
@@ -28,7 +28,7 @@ def check_valid_db():
         file_path TEXT NOT NULL,
         description TEXT,
         FOREIGN KEY (user_id)
-            REFFERENCES User_Account(user_id))
+            REFFERENCES User_Accounts(user_id))
         """)
     
         conn.commit()
@@ -36,10 +36,10 @@ def check_valid_db():
 
 # check for an account, if found dont continue
 def check_for_user():
-    conn = sqlite3.connect("instance/LocalAccount.db")
+    conn = sqlite3.connect("instance/FlowBro.db")
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM User_Account")
+    cursor.execute("SELECT * FROM User_Accounts")
 
     exists = cursor.fetchone()
 
@@ -68,7 +68,7 @@ def generate_pass_hash(username, password):
 
 # add the user account into the database
 def add_local_account(username, secure_pass, salt):
-    conn = sqlite3.connect("instance/LocalAccount.db")
+    conn = sqlite3.connect("instance/FlowBro.db")
     cursor = conn.cursor()
 
     cursor.execute("""

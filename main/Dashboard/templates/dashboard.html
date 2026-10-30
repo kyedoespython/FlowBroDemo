@@ -1,9 +1,142 @@
-{% extends "base.html" %} {% block title %} FloBro {% endblock %}
+{% extends "base.html" %}
+
+{% block title %}
+<title>FlowBro</title>
+{% endblock %}
 
 {% block content %}
 
-<div class="Main/Intro">
-    <h1>FlowBro</h1>
+<style>
+    /* global reset & full screen background */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #ffffff; font-family: 'Inter', sans-serif; color: #1a1a1a; }
+
+    /* main app container */
+    .app-container { width: 100%; min-height: 100vh; padding: 2rem 3.5rem; }
+
+    /* top navbar */
+    .navbar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 2rem; }
+    .nav-group { display: flex; gap: 1.5rem; align-items: center; }
+
+    /* darker nav buttons (except Build) */
+    .nav-btn { background: #2a2a2a; border: 1px solid transparent; padding: 0.6rem 1.4rem; border-radius: 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; color: #ffffff; }
+    .nav-btn:hover { background: #1a1a1a; }
+    
+    /* Build button stays clean blue */
+    .nav-btn.primary { background: #2e6ff2; color: #fff; box-shadow: 0 4px 12px rgba(46, 111, 242, 0.25); }
+    .nav-btn.primary:hover { background: #1e5cd9; }
+
+    /* hero section */
+    .hero { display: flex; align-items: center; justify-content: space-between; position: relative; margin: 3rem 0 4rem; }
+    .hero-text { max-width: 500px; z-index: 2; }
+    .hero-text h1 { font-size: 3.8rem; line-height: 1.1; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+    .hero-text p { color: #666; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2.5rem; max-width: 400px; }
+    
+    /* prominent blue button */
+    .cta-btn { background: #2e6ff2; color: #fff; border: none; padding: 1rem 2.5rem; border-radius: 30px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; box-shadow: 0 10px 20px rgba(46, 111, 242, 0.25); }
+    .cta-btn:hover { background: #1e5cd9; }
+
+    /* hero graphic placeholder area (CSV, Excel, SQLite) */
+    .hero-image { position: absolute; right: 0; top: 0; width: 380px; height: 380px; display: flex; align-items: center; justify-content: center; gap: 1.5rem; z-index: 1; }
+    
+    /* placeholder boxes for the 3 icons */
+    .icon-placeholder { width: 90px; height: 90px; background: #f5f6f8; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600; color: #a0a0a0; }
+
+    /* section header */
+    .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; }
+    .section-header h2 { font-size: 2rem; line-height: 1.2; font-weight: 700; }
+    .arrows { display: flex; gap: 1rem; }
+    .arrow { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #eaeaea; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #666; cursor: pointer; }
+    .arrow.active { background: #f4b375; border-color: #f4b375; color: #fff; }
+
+    /* cards grid */
+    .grid { display: flex; gap: 2rem; }
+    .card { flex: 1; display: flex; flex-direction: column; gap: 1rem; }
+
+    /* image boxes (slightly smaller now) */
+    .data_image_box1, .visual_image { width: 80%; aspect-ratio: 4 / 3; border-radius: 20px; overflow: hidden; background: #f5f6f8; margin: 0 auto; }
+    .data_image_box1 img, .visual_image img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* card text & progress */
+    .card-category { font-size: 0.75rem; color: #a0a0a0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; text-align: center; }
+    .card-title { font-size: 1.1rem; font-weight: 600; line-height: 1.3; margin-bottom: 0.8rem; text-align: center; }
+    .progress-container { margin-top: auto; width: 80%; margin-left: auto; margin-right: auto; margin-bottom: 2rem; }
+    .progress-labels { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .progress-labels span:last-child { color: #a0a0a0; font-weight: 400; }
+    .progress-bar { width: 100%; height: 4px; background: #eaeaea; border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: #2e6ff2; border-radius: 2px; }
+</style>
+
+<div class="app-container">
+    <!-- navbar with 4 buttons -->
+    <nav class="navbar">
+        <div class="nav-group">
+            <button class="nav-btn">Login</button>
+            <button class="nav-btn">Join Us</button>
+        </div>
+        <div class="nav-group">
+            <a href="{{ url_for('Playground') }}">
+                <button class="nav-btn">Playground</button>
+            </a>
+        </div>
+        <div class="nav-group">
+            <button class="nav-btn primary">Build</button>
+        </div>
+    </nav>
+
+    <!-- hero section -->
+    <div class="hero">
+        <div class="hero-text">
+            <h1>Analyse Data.<br>Build Insights.</h1>
+            <p>Connect your datasets and uncover beautiful visualisations across every dimension of your project.</p>
+            <button class="cta-btn">Get Started</button>
+        </div>
+        
+        <!-- placeholder row for CSV, Excel, SQLite icons -->
+        <div class="hero-image">
+            <div class="icon-placeholder">CSV</div>
+            <div class="icon-placeholder">Excel</div>
+            <div class="icon-placeholder">SQLite</div>
+        </div>
+    </div>
+
+    <!-- section header -->
+    <div class="section-header">
+        <h2>What's<br>Happening Now</h2>
+        <div class="arrows">
+            <div class="arrow active">←</div>
+            <div class="arrow">→</div>
+        </div>
+    </div>
+
+    <!-- cards grid -->
+    <div class="grid">
+        <!-- card 1 -->
+        <div class="card">
+            <div class="data_image_box1">
+                <img src="{{ url_for('static', filename='images/Data_image1.jpg') }}" alt="Data preview">
+            </div>
+            <div class="card-category">Overview • CSV Data</div>
+            <div class="card-title">Q3 Sales Performance Analysis</div>
+            <div class="progress-container">
+                <div class="progress-labels"><span>Processing</span><span>65%</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
+            </div>
+        </div>
+
+        <!-- card 2 -->
+        <div class="card">
+            <div class="visual_image">
+                <img src="{{ url_for('static', filename='images/Insights_image.jpg') }}" alt="Visual insights">
+            </div>
+            <div class="card-category">Visualisation • Insights</div>
+            <div class="card-title">Customer Retention Correlations</div>
+            <div class="progress-container">
+                <div class="progress-labels"><span>Completed</span><span>100%</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
