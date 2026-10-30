@@ -9,6 +9,12 @@ venv313/
 # Databases
 *.db
 *.sqlite3
+instance/
+
+# env and flaskenv
+.flaskenv
+.env
+.env*
 
 # CSV files
 *.csv
@@ -18,3 +24,15 @@ venv313/
 
 # Generated exports
 main/exports/CSV_Files/
+
+# python bytecode and caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build and distribution artifacts
+dist/
+build/
+*.egg-info/
+*.egg
