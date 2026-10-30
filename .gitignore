@@ -11,10 +11,11 @@ venv313/
 *.sqlite3
 instance/
 
-# env and flaskenv
-.flaskenv
+# Environment variables
 .env
-.env*
+.flaskenv
+.env.*
+!.env.example
 
 # CSV files
 *.csv
