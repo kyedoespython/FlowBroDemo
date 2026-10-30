@@ -1,4 +1,3 @@
-FlowBroDemo
 FlowBro: Data analysis made easy
 
 This repository is a demonstration of the FlowBro project, aimed at simplifying data analysis workflows.
