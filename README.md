@@ -1,149 +1,306 @@
 <div align="center">
 
-# 🧩 FlowBro
+<h1>FLOWBRO</h1>
 
-### Data analysis made easy.
+<h3>DATA ANALYSIS. STRUCTURED. SIMPLIFIED.</h3>
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Status](https://img.shields.io/badge/Status-Demo-orange?style=for-the-badge)](/)
-[![License](https://img.shields.io/badge/License-TBD-lightgrey?style=for-the-badge)](/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)](/)
+<p>A Python toolkit focused on clean, repeatable and readable analytical workflows.</p>
 
-**FlowBro** is a streamlined framework that turns messy data analysis into clean, repeatable workflows — so you can spend less time wrangling and more time discovering.
+<br>
 
-[Overview](#-overview) • [Features](#-features) • [Project Structure](#-project-structure) • [Getting Started](#-getting-started) • [Usage](#-usage) • [Roadmap](#-roadmap) • [Contributing](#-contributing)
+<p>
+<a href="https://github.com/kyedoespython/FlowBroDemo"><img src="https://img.shields.io/badge/PROJECT-DEMO-000000?style=flat-square" alt="Demo"></a>
+<img src="https://img.shields.io/badge/PYTHON-3.8%2B-000000?style=flat-square" alt="Python 3.8+">
+<img src="https://img.shields.io/badge/LICENCE-ALL%20RIGHTS%20RESERVED-000000?style=flat-square" alt="All rights reserved">
+</p>
+
+<p>
+<a href="https://github.com/kyedoespython/FlowBroDemo">VIEW REPOSITORY</a>
+&nbsp; | &nbsp;
+<a href="mailto:buchanankyle10@gmail.com">CONTACT</a>
+</p>
 
 </div>
 
----
+<hr>
 
-## 📖 Overview
+<h2 align="center">01 / OVERVIEW</h2>
 
-`FlowBroDemo` is the reference implementation of **FlowBro**, a data analysis toolkit built around the idea that analysis pipelines should be **declarative, reproducible, and readable**.
+<p align="center">
+FlowBro aims to simplify how Python data-analysis workflows are structured and executed.
+</p>
 
-This demo repository showcases the project's architecture and core workflow. It is intended as a starting point for users exploring FlowBro and for contributors looking to understand how the pieces fit together.
+<p align="center">
+Built around readability, organisation and reproducibility, FlowBro provides a foundation for developing structured analytical processes without unnecessary complexity.
+</p>
 
-> ⚠️ **Note:** This is a demonstration repository. Some modules are under active development.
+<p align="center">
+This repository contains the demonstration implementation of the project.
+</p>
 
----
+<br>
 
-## ✨ Features
+<hr>
 
-- **🔁 Reproducible Pipelines** — Define analysis steps once and re-run them reliably.
-- **🧠 Intuitive API** — Minimal boilerplate; focus on the data, not the plumbing.
-- **📦 Lightweight Dependencies** — Managed via a single `packages.txt` manifest.
-- **🧪 Demo-Ready** — Self-contained example to get you up and running fast.
-- **🛠️ Extensible** — Designed to be dropped into existing Python data stacks.
+<h2 align="center">02 / WORKFLOW ARCHITECTURE</h2>
 
----
+<p align="center">
+<b>FROM RAW DATA TO STRUCTURED RESULTS</b>
+</p>
 
-## 🗂 Project Structure
+<table width="100%" border="0" cellpadding="8" cellspacing="0">
+<tr>
+<td align="center" bgcolor="#111111">
+<font color="#FFFFFF">
+<b>01</b><br><br>
+<b>DATA INPUT</b><br>
+<sub>Raw data and sources</sub>
+</font>
+</td>
+</tr>
+<tr>
+<td align="center">
+<font color="#777777" size="5">↓</font>
+</td>
+</tr>
+<tr>
+<td align="center" bgcolor="#EEEEEE">
+<font color="#111111">
+<b>02</b><br><br>
+<b>INITIALISATION</b><br>
+<sub>Prepare the environment</sub>
+</font>
+</td>
+</tr>
+<tr>
+<td align="center">
+<font color="#777777" size="5">↓</font>
+</td>
+</tr>
+<tr>
+<td align="center" bgcolor="#111111">
+<font color="#FFFFFF">
+<b>03</b><br><br>
+<b>WORKFLOW DEFINITION</b><br>
+<sub>Structure analytical operations</sub>
+</font>
+</td>
+</tr>
+<tr>
+<td align="center">
+<font color="#777777" size="5">↓</font>
+</td>
+</tr>
+<tr>
+<td align="center" bgcolor="#EEEEEE">
+<font color="#111111">
+<b>04</b><br><br>
+<b>PROCESSING &amp; ANALYSIS</b><br>
+<sub>Execute defined operations</sub>
+</font>
+</td>
+</tr>
+<tr>
+<td align="center">
+<font color="#777777" size="5">↓</font>
+</td>
+</tr>
+<tr>
+<td align="center" bgcolor="#111111">
+<font color="#FFFFFF">
+<b>05</b><br><br>
+<b>RESULTS &amp; OUTPUT</b><br>
+<sub>Structured analytical results</sub>
+</font>
+</td>
+</tr>
+</table>
 
-A visual map of the repository layout:
+<p align="center">
+<sub>Conceptual representation of the FlowBro workflow.</sub>
+</p>
 
-```
+<br>
+
+<hr>
+
+<h2 align="center">03 / KEY FEATURES</h2>
+
+<table width="100%" border="0" cellpadding="12" cellspacing="1">
+<tr bgcolor="#EEEEEE">
+<td width="50%">
+<b>01 / STRUCTURE</b><br>
+Organised analytical workflows.
+</td>
+<td width="50%">
+<b>02 / REPRODUCIBILITY</b><br>
+Designed for repeatable analysis.
+</td>
+</tr>
+<tr bgcolor="#EEEEEE">
+<td>
+<b>03 / READABILITY</b><br>
+A cleaner approach to Python workflows.
+</td>
+<td>
+<b>04 / EXTENSIBILITY</b><br>
+A foundation for future development.
+</td>
+</tr>
+</table>
+
+<br>
+
+<hr>
+
+<h2 align="center">04 / GETTING STARTED</h2>
+
+<p><b>Requirements</b></p>
+
+<ul>
+<li>Python 3.8 or higher</li>
+<li>pip</li>
+<li>Git</li>
+</ul>
+
+<p><b>Installation</b></p>
+
+<pre>
+git clone https://github.com/kyedoespython/FlowBroDemo.git
+
+cd FlowBroDemo
+
+python -m venv .venv
+</pre>
+
+<p><b>Activate the environment</b></p>
+
+<pre>
+# Windows
+.venv\Scripts\activate
+
+# Linux / macOS
+source .venv/bin/activate
+</pre>
+
+<p><b>Install dependencies</b></p>
+
+<pre>
+pip install -r packages.txt
+</pre>
+
+<p>Explore the <code>main/</code> directory for the demonstration implementation.</p>
+
+<br>
+
+<hr>
+
+<h2 align="center">05 / PROJECT STRUCTURE</h2>
+
+<pre>
 FlowBroDemo/
 │
-├── main/                  # Core application & demo scripts
-│   ├── ...                # Analysis pipeline modules
-│   └── ...
-│
-├── packages.txt           # Dependency manifest
-├── .gitattributes         # Git attributes configuration
-├── .gitignore             # Git ignore rules
-└── README.md              # Project documentation
-```
+├── main/ Application and demo scripts
+├── packages.txt Dependency manifest
+└── README.md Documentation
+</pre>
 
-> The structure above reflects the current repository state. As the project grows, this map will expand.
+<br>
 
----
+<hr>
 
-## 🚀 Getting Started
+<h2 align="center">06 / CONTACT &amp; CONTRIBUTIONS</h2>
 
-### Prerequisites
+<p align="center">
+Questions, feedback and contribution enquiries are welcome.
+</p>
 
-- **Python 3.8+**
-- `pip` and `git` installed
+<table width="100%" border="0" cellpadding="10" cellspacing="0">
+<tr>
+<td align="center">
+<b>DEVELOPER</b><br>
+Kyle Buchanan
+</td>
+</tr>
+<tr>
+<td align="center">
+<b>GITHUB</b><br>
+<a href="https://github.com/kyedoespython">@kyedoespython</a>
+</td>
+</tr>
+<tr>
+<td align="center">
+<b>EMAIL</b><br>
+<a href="mailto:buchanankyle10@gmail.com">buchanankyle10@gmail.com</a>
+</td>
+</tr>
+<tr>
+<td align="center">
+<b>REPOSITORY</b><br>
+<a href="https://github.com/kyedoespython/FlowBroDemo">FlowBroDemo</a>
+</td>
+</tr>
+</table>
 
-### Installation
+<p align="center">
+Please contact the developer before undertaking contributions or redistributing project materials.
+</p>
 
-**1. Clone the repository**
+<br>
 
-```bash
-git clone https://github.com/kyedoespython/FlowBroDemo.git
-cd FlowBroDemo
-```
+<hr>
 
-**2. Create a virtual environment** *(recommended)*
+<h2 align="center">07 / RESTRICTED USE &amp; COPYRIGHT</h2>
 
-```bash
-python -m venv .venv
-source .venv/bin/activate      # macOS / Linux
-# .venv\Scripts\activate       # Windows
-```
+<p align="center">
+<b>ALL RIGHTS RESERVED.</b>
+</p>
 
-**3. Install dependencies**
+<p>
+FlowBro, including its source code, associated materials and documentation, is the intellectual property of its respective copyright owner.
+</p>
 
-```bash
-pip install -r packages.txt
-```
+<p>
+<strong>Without explicit prior written permission from the copyright owner, the following activities are prohibited:</strong>
+</p>
 
----
+<ul>
+<li>Using or deploying this software.</li>
+<li>Copying, reproducing or modifying any part of the software.</li>
+<li>Redistributing, republishing or sublicensing the software.</li>
+<li>Commercially exploiting the software.</li>
+<li>Creating or distributing derivative works.</li>
+<li>Incorporating the software into other projects for redistribution.</li>
+</ul>
 
-## 💡 Usage
+<p>
+Access to this repository does not grant permission to use, copy, modify or redistribute the software. No licence is granted by default.
+</p>
 
-Once dependencies are installed, explore the `main/` directory for the demo entry points:
+<p>
+For licensing enquiries or requests for written permission, contact:
+</p>
 
-```bash
-cd main
-python <demo_script>.py
-```
+<p align="center">
+<a href="mailto:buchanankyle10@gmail.com"><b>buchanankyle10@gmail.com</b></a>
+</p>
 
-> 📌 Replace `<demo_script>.py` with the actual entry file found inside `main/`.
+<br>
 
----
-
-## 🗺 Roadmap
-
-- [ ] Expand demo coverage across analysis workflows
-- [ ] Add unit tests and CI pipeline
-- [ ] Publish packaging metadata (`pyproject.toml`)
-- [ ] Write full API documentation
-- [ ] Add usage examples and notebooks
-
----
-
-## 🤝 Contributing
-
-Contributions are what make open source thrive. Any contribution you make is **greatly appreciated**.
-
-1. **Fork** the project
-2. **Create** your feature branch (`git checkout -b feature/AmazingFeature`)
-3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** to the branch (`git push origin feature/AmazingFeature`)
-5. **Open** a Pull Request
-
-Please open an [issue](https://github.com/kyedoespython/FlowBroDemo/issues) for bugs or feature requests first.
-
----
-
-## 📄 License
-
-No license has been specified for this project yet. Until one is added, all rights are reserved by the author.
-If you intend to use this code, please [open an issue](https://github.com/kyedoespython/FlowBroDemo/issues) or contact the maintainer.
-
----
-
-## 👤 Author
-
-**kyedoespython**
-
-- GitHub: [@kyedoespython](https://github.com/kyedoespython)
-
----
+<hr>
 
 <div align="center">
 
-⭐ **If FlowBro helps you, consider giving the repo a star!** ⭐
+<h2>FLOWBRO</h2>
+
+<p><b>LESS COMPLEXITY. MORE CLARITY.</b></p>
+
+<p>
+<a href="https://github.com/kyedoespython/FlowBroDemo">GITHUB REPOSITORY</a>
+</p>
+
+<p>
+<sub>© 2026 Kyle Buchanan. All rights reserved.</sub>
+</p>
 
 </div>
