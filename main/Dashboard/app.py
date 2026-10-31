@@ -39,11 +39,11 @@ app.config['MAX_CONTENT_LENGTH'] = MAX_UPLOAD_MB * 1024 * 1024
 db.init_app(app)
 migrate.init_app(app, db)
 
-@app.route("/")
+@app.route("/home")
 def home():
     return render_template("dashboard.html")
 
-@app.route("/Join_Us", methods=["POST"])
+@app.route("/Join_Us", methods=["GET"])
 def Join_Us():
     return render_template("Join_Us.html")
 
@@ -55,6 +55,10 @@ def Handle_Join():
 @app.route("/Login")
 def Login_Page():
     return render_template("Login.html")
+
+@app.route("/handle_Login_Request")
+def Handle_Login():
+    
 
 # Playground
 @app.route("/Playground")

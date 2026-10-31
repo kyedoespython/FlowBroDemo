@@ -1,13 +1,335 @@
 {% extends "base.html" %}
 
-{% block title %}
-<title>FlowBro</title>
-{% endblock %}
+{% block title %}<title>FlowBro</title>{% endblock %}
 
 {% block content %}
 
-<div class="Application">
-    <h2>Application Form</h2>
+<style>
+    /* Main page layout */
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #171D1B;
+    }
+
+    /* Full viewport container */
+    .auth-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        margin-left: calc(50% - 50vw);
+        padding: 22px 8%;
+        box-sizing: border-box;
+        overflow: hidden;
+        background: #171D1B;
+        color: #E8EAE4;
+        font-family: Inter, Arial, sans-serif;
+    }
+
+    /* Navigation */
+    .auth-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .auth-nav a {
+        color: #A5AAA3;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.2s ease;
+    }
+
+    .auth-nav a:hover,
+    .auth-nav a.active {
+        color: #A0B49A;
+    }
+
+    .auth-nav-right {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+    }
+
+    /* Form positioning */
+    .auth-main {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    /* Form container */
+    .auth-card {
+        width: 100%;
+        max-width: 390px;
+        padding: 0;
+        border: none;
+        background: transparent;
+    }
+
+    /* FlowBro heading */
+    .auth-heading {
+        margin: 0 0 35px;
+        color: #E8EAE4;
+        font-size: 34px;
+        font-weight: 500;
+        letter-spacing: -1.5px;
+        text-align: center;
+    }
+
+    /* Form layout */
+    .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: 19px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .form-group label {
+        color: #A5AAA3;
+        font-size: 13px;
+    }
+
+    .form-group input {
+        width: 100%;
+        height: 45px;
+        padding: 0 13px;
+        box-sizing: border-box;
+        border: 1px solid #3A443D;
+        border-radius: 5px;
+        outline: none;
+        background: #202824;
+        color: #E8EAE4;
+        font-size: 14px;
+        transition: border-color 0.2s ease;
+    }
+
+    .form-group input:focus {
+        border-color: #A0B49A;
+    }
+
+    /* Form buttons */
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 7px;
+    }
+
+    .form-actions button {
+        height: 44px;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .submit-btn {
+        flex: 1;
+        border: 1px solid #A0B49A;
+        background: #A0B49A;
+        color: #171D1B;
+        font-weight: 600;
+    }
+
+    .submit-btn:hover {
+        background: #B3C4AE;
+    }
+
+    .clear-btn {
+        padding: 0 24px;
+        border: 1px solid #3A443D;
+        background: transparent;
+        color: #A5AAA3;
+    }
+
+    .clear-btn:hover {
+        border-color: #A0B49A;
+        color: #E8EAE4;
+    }
+
+    /* Login link */
+    .auth-footer {
+        margin-top: 25px;
+        color: #A5AAA3;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .auth-footer a {
+        color: #A0B49A;
+        text-decoration: none;
+    }
+
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+
+    /* Smaller screens */
+    @media (max-width: 600px) {
+        .auth-container {
+            padding: 20px;
+        }
+
+        .auth-heading {
+            font-size: 30px;
+        }
+
+        .auth-card {
+            max-width: 100%;
+        }
+    }
+
+    /* Short screens */
+    @media (max-height: 620px) {
+        .auth-heading {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .auth-form {
+            gap: 12px;
+        }
+
+        .form-group input {
+            height: 39px;
+        }
+
+        .auth-footer {
+            margin-top: 16px;
+        }
+    }
+</style>
+
+<div class="auth-container">
+
+    <!-- Navigation -->
+    <nav class="auth-nav">
+        <a href=" {{ url_for('home') }}">
+            <button>
+                Home
+            </button>
+        </a>
+
+        <div class="auth-nav-right">
+            
+            <a href="{{ url_for('Login_Page') }}">
+                <button>
+                    Login
+                </button>
+            </a>
+
+            <a href="#" class="active">Join Us</a>
+        </div>
+    </nav>
+
+    <!-- Registration form -->
+    <main class="auth-main">
+        <section class="auth-card">
+
+            <h1 class="auth-heading">FlowBro</h1>
+
+            <form class="auth-form" action="/handle_Join_Request" method="POST">
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm password</label>
+                    <input
+                        type="password"
+                        id="confirm-password"
+                        name="confirm_password"
+                        placeholder="Confirm your password"
+                        autocomplete="new-password"
+                        required
+                    >
+                </div>
+
+                <!-- Form actions -->
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">
+                        Join Us
+                    </button>
+
+                    <button type="button" class="clear-btn" id="clear-form">
+                        Clear
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Login navigation -->
+            <div class="auth-footer">
+                Already have an account?
+                <a href="#">Login</a>
+            </div>
+
+        </section>
+    </main>
+
 </div>
+
+<script>
+    // Clear all form fields when the Clear button is clicked.
+    document.getElementById("clear-form").addEventListener("click", function () {
+        const form = document.querySelector(".auth-form");
+
+        form.reset();
+
+        form.querySelectorAll("input").forEach(function (input) {
+            input.value = "";
+        });
+    });
+</script>
 
 {% endblock %}

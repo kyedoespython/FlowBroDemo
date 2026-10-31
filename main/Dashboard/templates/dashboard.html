@@ -521,13 +521,17 @@
     <nav class="navbar">
 
         <div class="nav-group">
-            <button class="nav-btn" type="button">
-                Login
-            </button>
+            <a href=" {{ url_for('Login_Page') }}">
+                <button class="nav-btn" type="button">
+                    Login
+                </button>
+            </a>
 
-            <button class="nav-btn" type="button">
-                Join Us
-            </button>
+            <a href="{{ url_for('Join_Us') }}">
+                <button class="nav-btn" type="button">
+                    Join Us
+                </button>
+            </a>
         </div>
 
         <div class="nav-group">
