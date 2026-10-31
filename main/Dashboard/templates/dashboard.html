@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}
@@ -7,136 +8,980 @@
 {% block content %}
 
 <style>
-    /* global reset & full screen background */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #ffffff; font-family: 'Inter', sans-serif; color: #1a1a1a; }
+    /* Reset page dimensions */
+    html,
+    body {
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+    }
 
-    /* main app container */
-    .app-container { width: 100%; min-height: 100vh; padding: 2rem 3.5rem; }
+    body {
+        overflow-x: hidden;
+        background: #171D1B;
+        color: #E8EAE4;
+        font-family: 'Inter', sans-serif;
+    }
 
-    /* top navbar */
-    .navbar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 2rem; }
-    .nav-group { display: flex; gap: 1.5rem; align-items: center; }
+    /* Main dashboard */
+    .app-container {
+        position: relative;
+        width: 100vw;
+        min-height: 100vh;
+        margin-left: calc(50% - 50vw);
+        padding: 22px 8% 45px;
+        box-sizing: border-box;
+        background: #171D1B;
+    }
 
-    /* darker nav buttons (except Build) */
-    .nav-btn { background: #2a2a2a; border: 1px solid transparent; padding: 0.6rem 1.4rem; border-radius: 20px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; color: #ffffff; }
-    .nav-btn:hover { background: #1a1a1a; }
-    
-    /* Build button stays clean blue */
-    .nav-btn.primary { background: #2e6ff2; color: #fff; box-shadow: 0 4px 12px rgba(46, 111, 242, 0.25); }
-    .nav-btn.primary:hover { background: #1e5cd9; }
+    /* Navigation */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 20px;
+    }
 
-    /* hero section */
-    .hero { display: flex; align-items: center; justify-content: space-between; position: relative; margin: 3rem 0 4rem; }
-    .hero-text { max-width: 500px; z-index: 2; }
-    .hero-text h1 { font-size: 3.8rem; line-height: 1.1; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
-    .hero-text p { color: #666; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2.5rem; max-width: 400px; }
-    
-    /* prominent blue button */
-    .cta-btn { background: #2e6ff2; color: #fff; border: none; padding: 1rem 2.5rem; border-radius: 30px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; box-shadow: 0 10px 20px rgba(46, 111, 242, 0.25); }
-    .cta-btn:hover { background: #1e5cd9; }
+    .nav-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
 
-    /* hero graphic placeholder area (CSV, Excel, SQLite) */
-    .hero-image { position: absolute; right: 0; top: 0; width: 380px; height: 380px; display: flex; align-items: center; justify-content: center; gap: 1.5rem; z-index: 1; }
-    
-    /* placeholder boxes for the 3 icons */
-    .icon-placeholder { width: 90px; height: 90px; background: #f5f6f8; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600; color: #a0a0a0; }
+    .nav-btn {
+        padding: 10px 18px;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        background: transparent;
+        color: #A5AAA3;
+        font-size: 0.82rem;
+        font-weight: 500;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s, background 0.2s;
+    }
 
-    /* section header */
-    .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; }
-    .section-header h2 { font-size: 2rem; line-height: 1.2; font-weight: 700; }
-    .arrows { display: flex; gap: 1rem; }
-    .arrow { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #eaeaea; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #666; cursor: pointer; }
-    .arrow.active { background: #f4b375; border-color: #f4b375; color: #fff; }
+    .nav-btn:hover {
+        color: #E8EAE4;
+        background: #242D29;
+    }
 
-    /* cards grid */
-    .grid { display: flex; gap: 2rem; }
-    .card { flex: 1; display: flex; flex-direction: column; gap: 1rem; }
+    .nav-btn.primary {
+        background: #A0B49A;
+        color: #171D1B;
+    }
 
-    /* image boxes (slightly smaller now) */
-    .data_image_box1, .visual_image { width: 80%; aspect-ratio: 4 / 3; border-radius: 20px; overflow: hidden; background: #f5f6f8; margin: 0 auto; }
-    .data_image_box1 img, .visual_image img { width: 100%; height: 100%; object-fit: cover; }
+    .nav-btn.primary:hover {
+        background: #BDCEB7;
+    }
 
-    /* card text & progress */
-    .card-category { font-size: 0.75rem; color: #a0a0a0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; text-align: center; }
-    .card-title { font-size: 1.1rem; font-weight: 600; line-height: 1.3; margin-bottom: 0.8rem; text-align: center; }
-    .progress-container { margin-top: auto; width: 80%; margin-left: auto; margin-right: auto; margin-bottom: 2rem; }
-    .progress-labels { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.4rem; }
-    .progress-labels span:last-child { color: #a0a0a0; font-weight: 400; }
-    .progress-bar { width: 100%; height: 4px; background: #eaeaea; border-radius: 2px; overflow: hidden; }
-    .progress-fill { height: 100%; background: #2e6ff2; border-radius: 2px; }
+    /* Hero introduction */
+    .hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 45px;
+        min-height: 390px;
+        margin: 10px 0 25px;
+    }
+
+    .hero-text {
+        flex: 1;
+        max-width: 680px;
+        margin-left: 5%;
+    }
+
+    .hero-label {
+        margin-bottom: 20px;
+        color: #A0B49A;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+    }
+
+    .hero-text h1 {
+        margin: 0 0 22px;
+        font-size: clamp(3.5rem, 6.5vw, 6.5rem);
+        font-weight: 500;
+        letter-spacing: -0.08em;
+        line-height: 0.92;
+    }
+
+    .hero-text h1 span {
+        color: #A0B49A;
+    }
+
+    .hero-text p {
+        max-width: 390px;
+        margin: 0 0 25px;
+        color: #A5AAA3;
+        font-size: 0.9rem;
+        line-height: 1.8;
+    }
+
+    .cta-btn {
+        padding: 12px 23px;
+        border: none;
+        border-radius: 5px;
+        background: #A0B49A;
+        color: #171D1B;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .cta-btn:hover {
+        background: #BDCEB7;
+    }
+
+    /* Chart layout */
+    .hero-chart {
+        width: 370px;
+        flex-shrink: 0;
+        margin-right: 4%;
+    }
+
+    .chart-heading {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .chart-heading h3 {
+        margin: 0 0 6px;
+        color: #E8EAE4;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .chart-heading p {
+        margin: 0;
+        color: #828B83;
+        font-size: 0.7rem;
+    }
+
+    /* Pie chart SVG */
+    .pie-chart {
+        display: block;
+        width: 280px;
+        height: 280px;
+        margin: 0 auto;
+        overflow: visible;
+    }
+
+    .pie-slice {
+        cursor: pointer;
+        stroke: #171D1B;
+        stroke-width: 2;
+        opacity: 0;
+        transition: opacity 0.2s, filter 0.2s;
+    }
+
+    .pie-slice.visible {
+        opacity: 1;
+    }
+
+    /* Remove all browser focus outlines */
+    .pie-slice:focus,
+    .pie-slice:focus-visible,
+    .pie-slice:active {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Only highlight a slice while the mouse is hovering */
+    .pie-slice:hover {
+        filter: brightness(1.2);
+        stroke: #E8EAE4;
+        stroke-width: 2.5;
+    }
+
+    /* Chart legend */
+    .chart-legend {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 8px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #A5AAA3;
+        font-size: 0.68rem;
+    }
+
+    .legend-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+
+    /* Statistics panel */
+    .chart-stats {
+        min-height: 125px;
+        margin-top: 20px;
+        padding: 16px 18px;
+        border: 1px solid #303A34;
+        border-radius: 6px;
+        background: #202824;
+        transition: opacity 0.2s;
+    }
+
+    .stats-category {
+        margin-bottom: 12px;
+        color: #A0B49A;
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .stat-item span {
+        display: block;
+        margin-bottom: 5px;
+        color: #828B83;
+        font-size: 0.65rem;
+    }
+
+    .stat-item strong {
+        color: #E8EAE4;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    .stats-hint {
+        color: #828B83;
+        font-size: 0.7rem;
+        text-align: center;
+    }
+
+    /* Supported file formats */
+    .file-types {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 25px 0 65px;
+        text-align: center;
+    }
+
+    .file-types-heading {
+        margin-bottom: 25px;
+    }
+
+    .section-label {
+        margin-bottom: 10px;
+        color: #A0B49A;
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+    }
+
+    .file-types-heading h2 {
+        font-size: 1.8rem;
+        font-weight: 500;
+        letter-spacing: -0.055em;
+    }
+
+    .file-type-list {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 55px;
+    }
+
+    .file-type {
+        min-width: 110px;
+        color: #828B83;
+        font-size: 0.78rem;
+    }
+
+    .file-type strong {
+        display: block;
+        margin-bottom: 7px;
+        color: #E8EAE4;
+        font-size: 1.15rem;
+        font-weight: 500;
+    }
+
+    /* Activity section */
+    .activity-section {
+        margin-top: 30px;
+    }
+
+    .section-header {
+        margin-bottom: 35px;
+        text-align: center;
+    }
+
+    .section-header h2 {
+        font-size: clamp(2rem, 3.5vw, 3rem);
+        font-weight: 500;
+        letter-spacing: -0.07em;
+        line-height: 1.05;
+    }
+
+    /* Activity cards */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 30px;
+        align-items: stretch;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+        border-radius: 7px;
+        background: #202824;
+    }
+
+    .card-image {
+        width: 100%;
+        aspect-ratio: 16 / 7;
+        margin-bottom: 18px;
+        overflow: hidden;
+        border-radius: 4px;
+        background: #2B3730;
+    }
+
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+    }
+
+    .card:hover .card-image img {
+        opacity: 1;
+    }
+
+    .card-category {
+        margin-bottom: 8px;
+        color: #A0B49A;
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    .card-title {
+        margin-bottom: 20px;
+        color: #E8EAE4;
+        font-size: 1.05rem;
+        font-weight: 500;
+        line-height: 1.4;
+    }
+
+    /* Progress information */
+    .progress-container {
+        margin-top: auto;
+    }
+
+    .progress-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 9px;
+        color: #E8EAE4;
+        font-size: 0.75rem;
+    }
+
+    .progress-labels span:last-child {
+        color: #A5AAA3;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 3px;
+        overflow: hidden;
+        border-radius: 2px;
+        background: #48514B;
+    }
+
+    .progress-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: #A0B49A;
+    }
+
+    /* Responsive layout */
+    @media (max-width: 1050px) {
+        .hero {
+            gap: 20px;
+        }
+
+        .hero-chart {
+            width: 330px;
+            margin-right: 0;
+        }
+
+        .pie-chart {
+            width: 250px;
+            height: 250px;
+        }
+    }
+
+    @media (max-width: 750px) {
+        .app-container {
+            padding: 20px 6% 35px;
+        }
+
+        .navbar {
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .nav-group {
+            gap: 5px;
+        }
+
+        .nav-btn {
+            padding: 9px 11px;
+            font-size: 0.75rem;
+        }
+
+        .hero {
+            flex-direction: column;
+            align-items: flex-start;
+            min-height: auto;
+            margin: 65px 0;
+        }
+
+        .hero-text {
+            margin-left: 0;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(3rem, 12vw, 5rem);
+        }
+
+        .hero-chart {
+            width: 100%;
+            max-width: 370px;
+            margin: 30px auto 0;
+            align-self: center;
+        }
+
+        .file-types {
+            margin: 45px 0 60px;
+        }
+
+        .file-type-list {
+            gap: 30px;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+        }
+
+        .grid {
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .hero-text h1 {
+            font-size: 3rem;
+        }
+
+        .file-type-list {
+            gap: 20px;
+        }
+
+        .file-type {
+            min-width: 85px;
+        }
+    }
+
+    /* Respect reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+        .pie-slice {
+            transition: none;
+        }
+    }
 </style>
 
 <div class="app-container">
-    <!-- navbar with 4 buttons -->
+
+    <!-- Navigation -->
     <nav class="navbar">
+
         <div class="nav-group">
-            <button class="nav-btn">Login</button>
-            <button class="nav-btn">Join Us</button>
+            <button class="nav-btn" type="button">
+                Login
+            </button>
+
+            <button class="nav-btn" type="button">
+                Join Us
+            </button>
         </div>
+
         <div class="nav-group">
-            <a href="{{ url_for('Playground') }}">
-                <button class="nav-btn">Playground</button>
+            <a href="{{ url_for('Playground') }}" class="nav-btn">
+                Playground
             </a>
         </div>
+
         <div class="nav-group">
-            <button class="nav-btn primary">Build</button>
+            <button class="nav-btn primary" type="button">
+                Build
+            </button>
         </div>
+
     </nav>
 
-    <!-- hero section -->
-    <div class="hero">
+    <!-- Hero introduction -->
+    <section class="hero">
+
         <div class="hero-text">
-            <h1>Analyse Data.<br>Build Insights.</h1>
-            <p>Connect your datasets and uncover beautiful visualisations across every dimension of your project.</p>
-            <button class="cta-btn">Get Started</button>
-        </div>
-        
-        <!-- placeholder row for CSV, Excel, SQLite icons -->
-        <div class="hero-image">
-            <div class="icon-placeholder">CSV</div>
-            <div class="icon-placeholder">Excel</div>
-            <div class="icon-placeholder">SQLite</div>
-        </div>
-    </div>
 
-    <!-- section header -->
-    <div class="section-header">
-        <h2>What's<br>Happening Now</h2>
-        <div class="arrows">
-            <div class="arrow active">←</div>
-            <div class="arrow">→</div>
-        </div>
-    </div>
+            <div class="hero-label">
+                FLOWBRO / DATA ANALYSIS
+            </div>
 
-    <!-- cards grid -->
-    <div class="grid">
-        <!-- card 1 -->
-        <div class="card">
-            <div class="data_image_box1">
-                <img src="{{ url_for('static', filename='images/Data_image1.jpg') }}" alt="Data preview">
-            </div>
-            <div class="card-category">Overview • CSV Data</div>
-            <div class="card-title">Q3 Sales Performance Analysis</div>
-            <div class="progress-container">
-                <div class="progress-labels"><span>Processing</span><span>65%</span></div>
-                <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
-            </div>
+            <h1>
+                Analyse data.<br>
+                Build <span>insights.</span>
+            </h1>
+
+            <p>
+                Connect your datasets and uncover meaningful
+                patterns through analysis and visualisation.
+                Turn raw information into something useful.
+            </p>
+
+            <a href="{{ url_for('Playground') }}">
+                <button class="cta-btn" type="button">
+                    Get Started
+                </button>
+            </a>
+
         </div>
 
-        <!-- card 2 -->
-        <div class="card">
-            <div class="visual_image">
-                <img src="{{ url_for('static', filename='images/Insights_image.jpg') }}" alt="Visual insights">
+        <!-- Interactive pie chart -->
+        <div class="hero-chart">
+
+            <div class="chart-heading">
+                <h3>Revenue breakdown</h3>
+                <p>Sales performance / Q3 overview</p>
             </div>
-            <div class="card-category">Visualisation • Insights</div>
-            <div class="card-title">Customer Retention Correlations</div>
-            <div class="progress-container">
-                <div class="progress-labels"><span>Completed</span><span>100%</span></div>
-                <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+
+            <svg
+                class="pie-chart"
+                id="pie-chart"
+                viewBox="0 0 280 280"
+                role="group"
+                aria-label="Interactive revenue breakdown pie chart"
+            >
+                <g id="pie-slices"></g>
+            </svg>
+
+            <!-- Chart legend -->
+            <div class="chart-legend">
+
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #A0B49A;"></span>
+                    Product sales
+                </div>
+
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #728B7B;"></span>
+                    Subscriptions
+                </div>
+
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #D0B88B;"></span>
+                    Other revenue
+                </div>
+
             </div>
+
+            <!-- Statistics panel -->
+            <div class="chart-stats" id="chart-stats">
+
+                <div class="stats-category" id="stats-category">
+                    OVERVIEW
+                </div>
+
+                <div class="stats-grid" id="stats-grid">
+
+                    <div class="stat-item">
+                        <span>Total revenue</span>
+                        <strong>£107,500</strong>
+                    </div>
+
+                    <div class="stat-item">
+                        <span>Total orders</span>
+                        <strong>2,840</strong>
+                    </div>
+
+                    <div class="stat-item">
+                        <span>Average order</span>
+                        <strong>£37.85</strong>
+                    </div>
+
+                    <div class="stat-item">
+                        <span>Growth</span>
+                        <strong>+14.2%</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
-    </div>
+
+    </section>
+
+    <!-- Supported file formats -->
+    <section class="file-types">
+
+        <div class="file-types-heading">
+
+            <div class="section-label">
+                SUPPORTED FORMATS
+            </div>
+
+            <h2>Work with your data.</h2>
+
+        </div>
+
+        <div class="file-type-list">
+
+            <div class="file-type">
+                <strong>CSV</strong>
+                Comma-separated
+            </div>
+
+            <div class="file-type">
+                <strong>Excel</strong>
+                XLS / XLSX
+            </div>
+
+            <div class="file-type">
+                <strong>SQLite</strong>
+                DB / SQLITE
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Activity section -->
+    <section class="activity-section">
+
+        <div class="section-header">
+            <h2>What's happening now.</h2>
+        </div>
+
+        <div class="grid">
+
+            <!-- First activity card -->
+            <div class="card">
+
+                <div class="card-image">
+                    <img
+                        src="{{ url_for('static', filename='images/Data_image1.jpg') }}"
+                        alt="Data preview"
+                    >
+                </div>
+
+                <div class="card-category">
+                    Overview / CSV Data
+                </div>
+
+                <div class="card-title">
+                    Q3 Sales Performance Analysis
+                </div>
+
+                <div class="progress-container">
+
+                    <div class="progress-labels">
+                        <span>Processing</span>
+                        <span>65%</span>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div
+                            class="progress-fill"
+                            style="width: 65%;">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Second activity card -->
+            <div class="card">
+
+                <div class="card-image">
+                    <img
+                        src="{{ url_for('static', filename='images/Insights_image.jpg') }}"
+                        alt="Visual insights"
+                    >
+                </div>
+
+                <div class="card-category">
+                    Visualisation / Insights
+                </div>
+
+                <div class="card-title">
+                    Customer Retention Correlations
+                </div>
+
+                <div class="progress-container">
+
+                    <div class="progress-labels">
+                        <span>Completed</span>
+                        <span>100%</span>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div
+                            class="progress-fill"
+                            style="width: 100%;">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
 </div>
+
+<script>
+    // Chart data - currently demonstration values
+    const chartData = [
+        {
+            name: "Product sales",
+            value: 45,
+            colour: "#A0B49A",
+            stats: [
+                { label: "Total sales", value: "£48,250" },
+                { label: "Orders", value: "1,284" },
+                { label: "Average order", value: "£37.58" },
+                { label: "Growth", value: "+12.8%" }
+            ]
+        },
+        {
+            name: "Subscriptions",
+            value: 35,
+            colour: "#728B7B",
+            stats: [
+                { label: "Recurring revenue", value: "£37,625" },
+                { label: "Active customers", value: "752" },
+                { label: "Churn rate", value: "3.2%" },
+                { label: "Growth", value: "+8.6%" }
+            ]
+        },
+        {
+            name: "Other revenue",
+            value: 20,
+            colour: "#D0B88B",
+            stats: [
+                { label: "Total revenue", value: "£21,625" },
+                { label: "Transactions", value: "804" },
+                { label: "Average sale", value: "£26.90" },
+                { label: "Growth", value: "+5.4%" }
+            ]
+        }
+    ];
+
+    // Chart configuration
+    const svg = document.getElementById("pie-chart");
+    const slicesContainer = document.getElementById("pie-slices");
+
+    const chartCentre = 140;
+    const chartRadius = 110;
+    const animationDuration = 3000;
+
+    // Convert an angle into an SVG coordinate
+    function getPoint(angle) {
+        const radians = (angle - 90) * Math.PI / 180;
+
+        return {
+            x: chartCentre + chartRadius * Math.cos(radians),
+            y: chartCentre + chartRadius * Math.sin(radians)
+        };
+    }
+
+    // Build an SVG wedge from a start angle to an end angle
+    function createSlicePath(startAngle, endAngle) {
+        const start = getPoint(startAngle);
+        const end = getPoint(endAngle);
+
+        const angleDifference = endAngle - startAngle;
+        const largeArc = angleDifference > 180 ? 1 : 0;
+
+        return [
+            `M ${chartCentre} ${chartCentre}`,
+            `L ${start.x} ${start.y}`,
+            `A ${chartRadius} ${chartRadius} 0 ${largeArc} 1 ${end.x} ${end.y}`,
+            "Z"
+        ].join(" ");
+    }
+
+    // Create the interactive chart slices
+    const slices = [];
+    let startAngle = 0;
+
+    chartData.forEach((item, index) => {
+        const endAngle = startAngle + (item.value / 100) * 360;
+
+        const path = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path"
+        );
+
+        path.setAttribute("class", "pie-slice");
+        path.setAttribute("fill", item.colour);
+        path.setAttribute("tabindex", "0");
+        path.setAttribute("role", "button");
+        path.setAttribute(
+            "aria-label",
+            `${item.name}, ${item.value} percent`
+        );
+
+        slicesContainer.appendChild(path);
+
+        slices.push({
+            element: path,
+            startAngle: startAngle,
+            endAngle: endAngle,
+            data: item,
+            index: index
+        });
+
+        // Update statistics when a slice is hovered
+        path.addEventListener("mouseenter", () => {
+            if (chartFinished) {
+                showStatistics(item);
+            }
+        });
+
+        // Support keyboard navigation
+        path.addEventListener("focus", () => {
+            if (chartFinished) {
+                showStatistics(item);
+            }
+        });
+
+        // Allow clicking to display statistics too
+        path.addEventListener("click", () => {
+            if (chartFinished) {
+                showStatistics(item);
+            }
+        });
+
+        startAngle = endAngle;
+    });
+
+    // Display statistics for the selected category
+    function showStatistics(item) {
+        const category = document.getElementById("stats-category");
+        const grid = document.getElementById("stats-grid");
+
+        category.textContent = item.name.toUpperCase();
+
+        grid.innerHTML = "";
+
+        item.stats.forEach(stat => {
+            const statItem = document.createElement("div");
+            statItem.className = "stat-item";
+
+            const label = document.createElement("span");
+            label.textContent = stat.label;
+
+            const value = document.createElement("strong");
+            value.textContent = stat.value;
+
+            statItem.appendChild(label);
+            statItem.appendChild(value);
+
+            grid.appendChild(statItem);
+        });
+    }
+
+    // Display overall business statistics
+    function showOverview() {
+        showStatistics({
+            name: "Overview",
+            stats: [
+                { label: "Total revenue", value: "£107,500" },
+                { label: "Total orders", value: "2,840" },
+                { label: "Average order", value: "£37.85" },
+                { label: "Growth", value: "+14.2%" }
+            ]
+        });
+    }
+
+    // Animation state
+    let chartFinished = false;
+    let animationStart = null;
+
+    // Draw the pie chart progressively in a clockwise direction
+    function animateChart(timestamp) {
+        if (!animationStart) {
+            animationStart = timestamp;
+        }
+
+        const elapsed = timestamp - animationStart;
+        const progress = Math.min(elapsed / animationDuration, 1);
+
+        // Smooth animation
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+        const currentAngle = easedProgress * 360;
+
+        // Update each slice as the pie fills
+        slices.forEach(slice => {
+            const visibleEnd = Math.min(
+                slice.endAngle,
+                currentAngle
+            );
+
+            if (visibleEnd > slice.startAngle) {
+                slice.element.setAttribute(
+                    "d",
+                    createSlicePath(slice.startAngle, visibleEnd)
+                );
+
+                slice.element.classList.add("visible");
+            }
+        });
+
+        // Continue until the entire pie has been drawn
+        if (progress < 1) {
+            requestAnimationFrame(animateChart);
+        } else {
+            chartFinished = true;
+            showOverview();
+        }
+    }
+
+    // Start the animation when the page loads
+    window.addEventListener("load", () => {
+        requestAnimationFrame(animateChart);
+    });
+</script>
 
 {% endblock %}

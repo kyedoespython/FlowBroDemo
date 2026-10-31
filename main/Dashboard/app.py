@@ -18,11 +18,11 @@ import io
 
 app = Flask(__name__)
 
-# Build the URL object directly (bypasses all string parsing issues)
+# postgresql url settings via (.env)
 db_url = URL.create(
     drivername="postgresql+psycopg",
     username=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),  # Raw password with @ works perfectly here
+    password=os.getenv("DB_PASSWORD"),
     host=os.getenv("DB_HOST"),
     port=int(os.getenv("DB_PORT", 8080)),
     database=os.getenv("DB_NAME"),

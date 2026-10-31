@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}
@@ -6,26 +7,481 @@
 
 {% block content %}
 
-<div class="Intro">
-    <style>
-        h2 {
-            text-align: center;
+<style>
+    /* Reset page dimensions */
+    html,
+    body {
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    /* Full viewport playground */
+    #playground {
+        position: relative;
+        width: 100vw;
+        min-height: 100vh;
+        margin-left: calc(50% - 50vw);
+        padding: 22px 7%;
+        box-sizing: border-box;
+        background: #171D1B;
+        color: #E8EAE4;
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Navigation */
+    .top-nav {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 45px;
+    }
+
+    .dashboard-link {
+        color: #A5AAA3;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .dashboard-link:hover {
+        color: #A0B49A;
+    }
+
+    /* Introduction */
+    .intro {
+        margin-bottom: 45px;
+    }
+
+    .intro-label,
+    .section-label {
+        margin-bottom: 12px;
+        color: #A0B49A;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+    }
+
+    .intro h1 {
+        margin: 0 0 15px;
+        font-size: clamp(3rem, 6vw, 5.5rem);
+        font-weight: 500;
+        letter-spacing: -0.075em;
+        line-height: 0.95;
+    }
+
+    .intro h1 span {
+        color: #A0B49A;
+    }
+
+    .intro-description {
+        max-width: 420px;
+        margin: 0;
+        color: #A5AAA3;
+        font-size: 0.88rem;
+        line-height: 1.7;
+    }
+
+    /* Import section */
+    .import-section {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 65px;
+        align-items: start;
+        padding-top: 10px;
+    }
+
+    .import-heading h2 {
+        max-width: 350px;
+        margin: 0 0 15px;
+        font-size: 2.2rem;
+        font-weight: 500;
+        letter-spacing: -0.06em;
+        line-height: 1.1;
+    }
+
+    .import-heading p {
+        max-width: 330px;
+        margin: 0;
+        color: #A5AAA3;
+        font-size: 0.85rem;
+        line-height: 1.7;
+    }
+
+    /* File type selection */
+    .source-options {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 25px;
+    }
+
+    .source-btn {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: #777F78;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .source-btn:hover,
+    .source-btn.active {
+        color: #A0B49A;
+    }
+
+    /* Upload area */
+    .upload-area {
+        padding: 27px;
+        border-radius: 10px;
+        background: #242D29;
+    }
+
+    .upload-area h3 {
+        margin: 0 0 10px;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .upload-area p {
+        margin: 0 0 20px;
+        color: #A5AAA3;
+        font-size: 0.82rem;
+        line-height: 1.6;
+    }
+
+    .file-input {
+        display: none;
+    }
+
+    .file-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .browse-btn,
+    .transform-btn {
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .browse-btn {
+        background: #A0B49A;
+        color: #171D1B;
+    }
+
+    .browse-btn:hover {
+        background: #BDCEB7;
+    }
+
+    .transform-btn {
+        background: #E8EAE4;
+        color: #171D1B;
+    }
+
+    .transform-btn:hover:not(:disabled) {
+        background: #BDCEB7;
+    }
+
+    .transform-btn:disabled {
+        background: #48514B;
+        color: #929A92;
+        cursor: not-allowed;
+    }
+
+    /* Selected file */
+    .selected-file {
+        display: none;
+        margin-top: 15px;
+        color: #A0B49A;
+        font-size: 0.85rem;
+        overflow-wrap: anywhere;
+    }
+
+    .selected-file.visible {
+        display: block;
+    }
+
+    .file-info {
+        display: block;
+        margin-top: 15px;
+        color: #828B83;
+        font-size: 0.75rem;
+    }
+
+    /* Responsive layout */
+    @media (max-width: 750px) {
+        #playground {
+            padding: 20px 6%;
         }
-    </style>
 
-    <h2>Welcome to the playground</h2>
+        .top-nav {
+            margin-bottom: 40px;
+        }
 
-    <div class="button_navigation">
-        <button>
-            load from database
-        </button>
-        <button>
-            load from excel
-        </button>
-        <button>
-            load from csv
-        </button>
-    </div>
+        .intro {
+            margin-bottom: 40px;
+        }
+
+        .intro h1 {
+            font-size: clamp(3rem, 12vw, 5rem);
+        }
+
+        .import-section {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .import-heading h2 {
+            font-size: 2rem;
+        }
+
+        .source-options {
+            gap: 25px;
+        }
+
+        .upload-area {
+            padding: 22px;
+        }
+    }
+</style>
+
+<div id="playground">
+
+    <!-- Navigation -->
+    <nav class="top-nav">
+        <a href="/" class="dashboard-link">Back to Dashboard</a>
+    </nav>
+
+    <!-- Introduction -->
+    <section class="intro">
+        <div class="intro-label">PLAYGROUND / DATA ANALYSIS</div>
+
+        <h1>
+            Make sense<br>
+            of your <span>data.</span>
+        </h1>
+
+        <p class="intro-description">
+            Bring your datasets into one workspace.
+            Explore, clean and transform your data
+            into something meaningful.
+        </p>
+    </section>
+
+    <!-- Import workspace -->
+    <section class="import-section">
+
+        <div class="import-heading">
+            <div class="section-label">01 / GET STARTED</div>
+
+            <h2>Start with a dataset.</h2>
+
+            <p>
+                Choose your data source and upload a file
+                to begin working with your information.
+            </p>
+        </div>
+
+        <div class="import-content">
+
+            <!-- File type selection -->
+            <div class="source-options">
+
+                <button
+                    class="source-btn active"
+                    data-type="database"
+                    type="button">
+                    Database
+                </button>
+
+                <button
+                    class="source-btn"
+                    data-type="excel"
+                    type="button">
+                    Excel
+                </button>
+
+                <button
+                    class="source-btn"
+                    data-type="csv"
+                    type="button">
+                    CSV
+                </button>
+
+            </div>
+
+            <!-- File upload -->
+            <div class="upload-area">
+
+                <h3 id="upload-title">Load Database</h3>
+
+                <p id="upload-description">
+                    Select a SQLite database to begin working with your data.
+                </p>
+
+                <input
+                    type="file"
+                    id="file-input"
+                    class="file-input"
+                    accept=".db,.sqlite,.sqlite3">
+
+                <div class="file-actions">
+
+                    <button
+                        class="browse-btn"
+                        id="browse-btn"
+                        type="button">
+                        Browse Files
+                    </button>
+
+                    <button
+                        class="transform-btn"
+                        id="transform-btn"
+                        type="button"
+                        disabled>
+                        Transform
+                    </button>
+
+                </div>
+
+                <div class="selected-file" id="selected-file">
+                    <span id="file-name"></span>
+                </div>
+
+                <span class="file-info" id="file-info">
+                    Supported formats: .db, .sqlite, .sqlite3
+                </span>
+
+            </div>
+        </div>
+    </section>
 </div>
+
+<script>
+    // Select page controls
+    const buttons = document.querySelectorAll('.source-btn');
+    const fileInput = document.getElementById('file-input');
+    const browseBtn = document.getElementById('browse-btn');
+    const transformBtn = document.getElementById('transform-btn');
+
+    const title = document.getElementById('upload-title');
+    const description = document.getElementById('upload-description');
+    const fileInfo = document.getElementById('file-info');
+
+    const selectedFile = document.getElementById('selected-file');
+    const fileName = document.getElementById('file-name');
+
+    // Define supported file types
+    const fileTypes = {
+        database: {
+            title: 'Load a Database',
+            description: 'Select a SQLite database to begin working with your data.',
+            accept: '.db,.sqlite,.sqlite3',
+            formats: 'Supported formats: .db, .sqlite, .sqlite3'
+        },
+
+        excel: {
+            title: 'Load an Excel File',
+            description: 'Select an Excel spreadsheet to import your data.',
+            accept: '.xlsx,.xls',
+            formats: 'Supported formats: .xlsx, .xls'
+        },
+
+        csv: {
+            title: 'Load a CSV File',
+            description: 'Select a CSV file containing your dataset.',
+            accept: '.csv',
+            formats: 'Supported formats: .csv'
+        }
+    };
+
+    let activeType = 'database';
+    let currentFile = null;
+
+    // Switch between file types
+    function selectType(type) {
+        activeType = type;
+        currentFile = null;
+
+        buttons.forEach(button => {
+            button.classList.toggle('active', button.dataset.type === type);
+        });
+
+        const config = fileTypes[type];
+
+        title.textContent = config.title;
+        description.textContent = config.description;
+        fileInfo.textContent = config.formats;
+
+        fileInput.accept = config.accept;
+        fileInput.value = '';
+
+        selectedFile.classList.remove('visible');
+        transformBtn.disabled = true;
+    }
+
+    // Listen for file type selection
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            selectType(button.dataset.type);
+        });
+    });
+
+    // Open file browser
+    browseBtn.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    // Validate and display selected file
+    function displayFile(file) {
+        if (!file) return;
+
+        const extension = file.name.split('.').pop().toLowerCase();
+
+        const allowed = fileTypes[activeType].accept
+            .split(',')
+            .map(format => format.slice(1));
+
+        if (!allowed.includes(extension)) {
+            alert('Please select a valid ' + activeType + ' file.');
+            fileInput.value = '';
+            return;
+        }
+
+        currentFile = file;
+        fileName.textContent = file.name;
+        selectedFile.classList.add('visible');
+        transformBtn.disabled = false;
+    }
+
+    // Detect file selection
+    fileInput.addEventListener('change', () => {
+        displayFile(fileInput.files[0]);
+    });
+
+    // Handle transform button
+    transformBtn.addEventListener('click', () => {
+        if (!currentFile) return;
+
+        alert('Transform selected: ' + currentFile.name);
+    });
+</script>
 
 {% endblock %}
